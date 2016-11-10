@@ -14,7 +14,7 @@ class Heap:
     def length(self):
         return len(self.heap)
 
-    def add(self, value):
+    def push(self, value):
         heapq.heappush(self.heap, value*self.multiplier)
 
     def pop(self):
@@ -31,7 +31,7 @@ class MaxHeap(Heap):
 
 class MinHeap(Heap):
     def __init__(self, basevalues = []): 
-        Heap.__init__(self, basevalues, 1)       
+        Heap.__init__(self, basevalues, 1)   
         
 
 if __name__ == '__main__':
