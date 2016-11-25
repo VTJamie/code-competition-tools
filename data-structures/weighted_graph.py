@@ -1,3 +1,5 @@
+from collections import deque
+
 class WeightedGraph:
     def __init__(self):
         self.nodes = {}
@@ -8,8 +10,10 @@ class WeightedGraph:
             self.nodes[a] = {}
         if b not in self.nodes:
             self.nodes[b] = {}
-        self.nodes[a][b] = weight
-        self.nodes[b][a] = weight
+        if b not in self.nodes[a] or self.nodes[a][b] > weight:    
+            self.nodes[a][b] = weight
+        if a not in self.nodes[b] or self.nodes[b][a] > weight:
+            self.nodes[b][a] = weight
     def traceBack(self, camefrom, a, b):
         tracelist = []
         if b in camefrom:
@@ -20,7 +24,7 @@ class WeightedGraph:
                 curnode = camefrom[curnode]
         return tracelist[::-1]
     def shortestPath(self, a, b):
-        if a not in self.paths:        
+        if a not in self.paths:              
             self.paths[a] = {
                 "shortestweight": {},
                 "camefrom": {}
@@ -28,7 +32,7 @@ class WeightedGraph:
             curpath = self.paths[a]
             self.paths[a]["shortestweight"][a] = 0
             visited = set([a])
-            q = [a]
+            q = deque([a])
             while len(q) > 0:
                 curnode = q.pop()
                 
@@ -37,15 +41,15 @@ class WeightedGraph:
                     curweight = curpath["shortestweight"][curnode]
                     if k not in curpath["shortestweight"] or curpath["shortestweight"][k] > curweight + weighttonode:
                         curpath["shortestweight"][k] = curweight + weighttonode
-                        curpath["camefrom"][k] = curnode
+                        #curpath["camefrom"][k] = curnode
                         visited.add(k)
-                        q.insert(0, k)
+                        q.appendleft(k)
                     if k not in visited:
                         visited.add(k)
-                        q.insert(0, k)
+                        q.appendleft(k)
 
         distance = -1 if b not in self.paths[a]["shortestweight"] else self.paths[a]["shortestweight"][b]
-        return distance, self.traceBack(self.paths[a]["camefrom"], a, b)
+        return distance#, self.traceBack(self.paths[a]["camefrom"], a, b)
 
 
 if __name__ == '__main__':
