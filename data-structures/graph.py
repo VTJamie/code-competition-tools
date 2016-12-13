@@ -10,6 +10,14 @@ class Graph:
             self.adjacencies[b] = []
         self.adjacencies[b].append(a)
 
+    def disconnect(self, a, b):
+        if a in self.adjacencies:
+            self.adjacencies[a].remove(b)
+
+        if b in self.adjacencies:
+            self.adjacencies[b].remove(a)
+
+
     def getDepthsFrom(self, a, totalnodes):
         depths = [None]*totalnodes
         depths[a] = 0
@@ -28,6 +36,15 @@ class Graph:
             curnodes = nextnodes
 
         return depths
+
+    def getLeaves(self):
+        leaves = []
+        for k in self.adjacencies:
+            if len(self.adjacencies[k]) == 1:
+                leaves.append(k)
+
+        return leaves
+
 
 if __name__ == '__main__':
     import sys
