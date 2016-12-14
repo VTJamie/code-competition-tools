@@ -16,6 +16,21 @@ def nCr(n, r):
 		memoncr[(n,r)] = fact(n)//(fact(r)*fact(n-r))
 	return memoncr[(n,r)]
 
+def primes_sieve(limit):
+    limitn = limit+1
+    not_prime = [False] * limitn
+    primes = []
+
+    for i in range(2, limitn):
+        if not_prime[i]:
+            continue
+        for f in range(i*2, limitn, i):
+            not_prime[f] = True
+
+        primes.append(i)
+
+    return primes     
+
 
 def _try_composite(a, d, n, s):
     if pow(a, d, n) == 1:
