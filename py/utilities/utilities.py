@@ -66,6 +66,12 @@ def is_prime(n, _precision_for_huge_n=16):
     # otherwise
     return not any(_try_composite(a, d, n, s) 
                    for a in _known_primes[:_precision_for_huge_n])
+
+
+def load_file_stdin(filename):
+    import sys
+    sys.stdin = open(filename)
+
  
 _known_primes = [2, 3]
 _known_primes += [x for x in range(5, 1000, 2) if is_prime(x)]
